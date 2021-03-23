@@ -1,25 +1,24 @@
-import 'package:flutter/cupertino.dart';
-
 class Post {
-  final int userId;
-  final int id;
-  final String title;
-  final String body;
+  int userId;
+  int id;
+  String title;
+  String body;
 
-  const Post(
-      {@required this.userId, @required this.id, @required this.title, @required this.body})
-      : assert(userId != null),
-        assert(id != null),
-        assert(title != null),
-        assert(body != null);
+  Post({this.userId, this.id, this.title, this.body});
 
-  Post.fromJson(Map jsonMap)
-      : assert(jsonMap['userId'] != null),
-        assert(jsonMap['id'] != null),
-        assert(jsonMap['title'] != null),
-        assert(jsonMap['body'] != null),
-        userId =jsonMap['userId'],
-        id = jsonMap['id'],
-        title = jsonMap['title'],
-        body = jsonMap['body'];
+  Post.fromJson(Map<String, dynamic> json) {
+    userId = json['userId'];
+    id = json['id'];
+    title = json['title'];
+    body = json['body'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userId'] = this.userId;
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['body'] = this.body;
+    return data;
+  }
 }
