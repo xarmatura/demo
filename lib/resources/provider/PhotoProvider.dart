@@ -6,7 +6,6 @@ import 'package:flutter_demo_app/models/Photo.dart';
 import 'package:http/http.dart' as http;
 
 class PhotoApiProvider {
-
   Future<List<Photo>> fetchPhotos() async {
     final response = await http
         .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
@@ -14,12 +13,9 @@ class PhotoApiProvider {
     return compute(parsePhotos, response.body);
   }
 }
-// convert a response body into a List<Photo>.
-List<Photo> parsePhotos(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
+List<Photo> parsePhotos(String responseBody) {
+  // convert a response body into a List<Photo>.
+  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
   return parsed.map<Photo>((json) => Photo.fromJson(json)).toList();
 }
-
-
-
