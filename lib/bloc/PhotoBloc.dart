@@ -1,4 +1,4 @@
-import 'package:flutter_demo_app/resources/repository/Repository.dart';
+import '../resources/repository/Repository.dart';
 
 
 // class PhotoBloc extends Bloc<PhotoEvent, PhotoState>{
@@ -13,7 +13,7 @@ import 'package:flutter_demo_app/resources/repository/Repository.dart';
 //
 //   @override
 //   Stream<PhotoState> mapEventToState(PhotoEvent event) {
-//    
+//
 //     throw UnimplementedError();
 //   }
 //
