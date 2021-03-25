@@ -13,6 +13,7 @@ class PhotoList extends StatefulWidget {
 class _PhotoListState extends State<PhotoList> {
   final _scrollController = ScrollController();
   late PhotoBloc _photoBloc;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -25,32 +26,38 @@ class _PhotoListState extends State<PhotoList> {
   Widget build(BuildContext context) {
     return BlocBuilder<PhotoBloc, PhotoState>(
       builder: (context, state) {
+        print(state.status);
         switch (state.status) {
+          case PhotoStatus.loading:
+            return Center(child: CircularProgressIndicator());
           case PhotoStatus.failure:
             return const Center(child: Text('failed to fetch posts'));
           case PhotoStatus.success:
             if (state.photos.isEmpty) {
               return const Center(child: Text('no posts'));
             }
-            return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-              ),
-              itemCount: state.hasReachedMax
-                  ? state.photos.length
-                  : state.photos.length + 1,
-              itemBuilder: (BuildContext context, int index) {
-                // debugPrint('PhotoList : ${state.photos.length}');
-                return index >= state.photos.length
-                    ? BottomLoader()
-                    : GridTile(
-                    child: Image.network(state.photos[index].thumbnailUrl));
-              },
-              controller: _scrollController,
+            return Stack(
+              children: <Widget>[
+                GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemCount: state.hasReachedMax
+                      ? state.photos.length
+                      : state.photos.length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    // debugPrint('PhotoList : ${state.photos.length}');
+                    return index >= state.photos.length
+                        ? Container()
+                        : GridTile(
+                        child: Image.network(state.photos[index].thumbnailUrl));
+                  },
+                  controller: _scrollController,
+                ),
+              ],
             );
-
           default:
-            return const Center(child: CircularProgressIndicator());
+            return Container();
         }
       },
     );
@@ -63,13 +70,6 @@ class _PhotoListState extends State<PhotoList> {
   }
 
   void _onScroll() {
-    if (_isBottom) _photoBloc.add(PhotoFetched());
-  }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
+    _photoBloc.add(PhotoFetched());
   }
 }

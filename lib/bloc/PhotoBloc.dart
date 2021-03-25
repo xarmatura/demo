@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -37,7 +38,13 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
           hasReachedMax: false,
         );
       }
+
+      if (state.status == PhotoStatus.loading) {
+        return state.copyWith(status: PhotoStatus.success);
+      }
+
       final photos = await repository!.fetch(state.photos.length);
+      debugPrint('L : ${state.status}');
       return photos.isEmpty
           ? state.copyWith(hasReachedMax: true)
           : state.copyWith(

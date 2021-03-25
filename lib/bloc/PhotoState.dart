@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_demo_app/models/Photo.dart';
 
-enum PhotoStatus { initial, success, failure }
+enum PhotoStatus { initial, loading, success, failure }
 
 class PhotoState extends Equatable {
   const PhotoState({
