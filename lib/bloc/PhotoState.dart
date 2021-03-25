@@ -1,21 +1,21 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_demo_app/models/Photo.dart';
 
-enum PostStatus { initial, success, failure }
+enum PhotoStatus { initial, success, failure }
 
 class PhotoState extends Equatable {
   const PhotoState({
-    this.status = PostStatus.initial,
+    this.status = PhotoStatus.initial,
     this.photos = const <Photo>[],
     this.hasReachedMax = false,
   });
 
-  final PostStatus status;
+  final PhotoStatus status;
   final List<Photo> photos;
   final bool hasReachedMax;
 
   PhotoState copyWith({
-    PostStatus? status,
+    PhotoStatus? status,
     List<Photo>? photos,
     bool? hasReachedMax,
   }) {
